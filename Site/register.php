@@ -3,10 +3,6 @@
 
 // Соединямся с БД
 $link=mysqli_connect("localhost","root","root","sql_database");
-	if(isset($_POST['submit1']))
-	{
-	header("Location: login.php"); exit();
-	}
 if(isset($_POST['submit']))
 {
 
@@ -39,7 +35,7 @@ if(isset($_POST['submit']))
 
         // Убераем лишние пробелы и делаем двойное хеширование
         $password = md5(md5(trim($_POST['password'])));
-
+		//добавляем в базу данные
         mysqli_query($link,"INSERT INTO users SET username='".$login."', password='".$password."', role='2', dateregistration=NOW()");
 
         header("Location: login.php"); exit();

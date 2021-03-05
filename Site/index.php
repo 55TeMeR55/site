@@ -1,25 +1,25 @@
 <?
 
-	
+	//конект к базе
 	$link = mysqli_connect("localhost","root","root","sql_database");
-	
+	//проверяем куки
 	if (isset($_COOKIE['id']) and isset($_COOKIE['hash']))
-	{
+	{//включаем бутон
 		$button=true;
 
-
+//выборку по кукам
 		$query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE id = '".intval($_COOKIE['id'])."' LIMIT 1");
 		$userdata = mysqli_fetch_assoc($query);
 		
-
+//обьявляем переменные
 		$role = $userdata['role'];
 		$username = $userdata['username'];
-	
+	//ранг пользователя если админ то вкл админ панель
 		if($role==1)
 		{
 			$admin=true;
 		}
-	
+	//обновляем куки
 		if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['id'] !== $_COOKIE['id'])
 		or (($userdata['user_ip'] !== $_SERVER['REMOTE_ADDR'])  and ($userdata['user_ip'] !== "0")))
 		{

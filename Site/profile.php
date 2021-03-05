@@ -1,17 +1,18 @@
 <?
+//коннект к базе
 	$link = mysqli_connect("localhost","root","root","sql_database");
-	
+	//сравниваем куки
 	if (isset($_COOKIE['id']) and isset($_COOKIE['hash']))
-	{
+	{//есть авторизирован то выводим кнопку выхода
 		If($onclickonbutton!==true)
 		{
 		$button=true;
 
-
+//выборка по кукам
 		$query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE id = '".intval($_COOKIE['id'])."' LIMIT 1");
 		$userdata = mysqli_fetch_assoc($query);
 		
-
+//переменные
 		$id = ($userdata['id']);					
 		$username = $userdata['username'];
 		$password = ($userdata['password']);
@@ -21,12 +22,12 @@
 		$firstname = $userdata['firstname'];
 		$secondname = $userdata['secondname'];
 		$dateregistration = $userdata['dateregistration'];
-	
+	//ранг пользователя
 		if($role==1)
 		{
 			$admin=true;
 		}
-	
+	//обновляем хеш
 		if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['id'] !== $_COOKIE['id'])
 		or (($userdata['user_ip'] !== $_SERVER['REMOTE_ADDR'])  and ($userdata['user_ip'] !== "0")))
 		{
@@ -51,7 +52,7 @@
     {
 		 // Убераем лишние пробелы и делаем двойное хеширование
 
-        // Записываем в БД новый пароль временное не ворк
+        // Записываем в БД новый пароль
 		if($_POST['password'] !== $password)
 		{
 
